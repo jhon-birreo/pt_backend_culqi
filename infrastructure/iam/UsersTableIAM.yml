@@ -1,18 +1,3 @@
-# export default {
-#   Effect: 'Allow',
-#   Action: [
-#     'dynamodb:PutItem',
-#     'dynamodb:Scan',
-#     'dynamodb:GetItem',
-#     'dynamodb:DeleteItem',
-#     'dynamodb:UpdateItem',
-#     'dynamodb:Query'
-#   ],
-#   Resource: [
-#     '${self:custom.usersTable.arn}'
-#   ]
-# }
-
 UsersTableIAM:
   Effect: Allow
   Action:
