@@ -7,10 +7,11 @@
     "test": "jest --maxWorkers=5%",
     "offline": "sls offline --stage=local",
     "dynamodb:migrate": "sls dynamodb migrate --stage=local",
-    "deployLocal": "sls deploy --verbose"
+    "deploy": "sls deploy --verbose"
   },
   "author": "Jhon Birreo",
   "license": "ISC",
+  "repository": "https://github.com/jhon-birreo/pt_backend_culqi.git",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.328.0",
     "@aws-sdk/lib-dynamodb": "^3.328.0",
