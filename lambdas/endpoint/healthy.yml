@@ -1,0 +1,6 @@
+checkHealthy:
+  handler: lambdas/functions/healthy/handler.run
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/health

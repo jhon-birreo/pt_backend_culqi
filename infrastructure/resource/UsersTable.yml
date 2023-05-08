@@ -1,0 +1,12 @@
+UsersTable:
+  Type: AWS::DynamoDB::Table
+  DeletionPolicy: Retain
+  Properties:
+    TableName: UsersTable-${self:provider.stage}
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+    KeySchema:
+      - AttributeName: PK
+        KeyType: HASH

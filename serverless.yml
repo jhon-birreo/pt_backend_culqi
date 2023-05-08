@@ -1,0 +1,55 @@
+service: api-culqi-serverless
+frameworkVersion: '3'
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-dynamodb-local
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: us-east-2
+  timeout: 30
+  environment:
+    APP_ENVIRONMENT: ${self:provider.stage}
+    SERVICE_NAME: ${self:service}
+    NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000'
+    DYNAMODB_LOCAL_ENDPOINT: http://localhost:8000
+    AMAZON_REGION: ${self:provider.region}
+    AMAZON_ACCOUNTID: 994176208639
+    CARD_TABLE_NAME: CardsTable-${self:provider.stage}
+    USER_TABLE_NAME: UsersTable-${self:provider.stage}
+  iamRoleStatements:
+    - ${file(infrastructure/iam/CardsTableIAM.yml):CardsTableIAM}
+    - ${file(infrastructure/iam/UsersTableIAM.yml):UsersTableIAM}
+
+resources:
+  Resources:
+    UsersTable: ${file(infrastructure/resource/UsersTable.yml):UsersTable}
+    CardsTable: ${file(infrastructure/resource/CardsTable.yml):CardsTable}
+
+functions:
+  - ${file(lambdas/endpoint/user.yml)}
+  - ${file(lambdas/endpoint/card.yml)}
+  - ${file(lambdas/endpoint/healthy.yml)}
+
+custom:
+  usersTable:
+    name: !Ref UsersTable
+    arn: !GetAtt UsersTable.Arn
+  cardsTable:
+    name: !Ref CardsTable
+    arn: !GetAtt CardsTable.Arn
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start: 
+      host : localhost
+      port: 8000
+      migrate: true
+      noStart: true
+  serverless-offline:
+    httpPort: 3000
+    host: '127.0.0.1'

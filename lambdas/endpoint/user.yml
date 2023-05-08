@@ -1,0 +1,6 @@
+createUser:
+  handler: lambdas/functions/user/create.run
+  events:
+    - httpApi:
+        method: post
+        path: /api/v1/user

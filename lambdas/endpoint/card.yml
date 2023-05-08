@@ -1,0 +1,12 @@
+createCard:
+  handler: lambdas/functions/card/create.run
+  events:
+    - httpApi:
+        method: post
+        path: /api/v1/card
+findCard:
+  handler: lambdas/functions/card/find.run
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/cards
